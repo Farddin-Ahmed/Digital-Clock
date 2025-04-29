@@ -12,7 +12,10 @@ let sat = document.getElementById("sat");
 let sun = document.getElementById("sun");
 let select = document.getElementById("select");
 let ampmbox = document.getElementById("ampmbox"); //AM/PM container
+let phampmbox = document.getElementById("phampmbox"); //for phone
 let ap = document.getElementById("ap"); // AM/PM indicator
+let phap = document.getElementById("phap"); 
+let phoneday = document.getElementById("phoneday");
 
 // Updates the clock's minutes, seconds, date, and active day
 // Runs every second
@@ -42,18 +45,25 @@ function currenttime() {
   // getDay() returns 0 for Sunday, 1 for Monday, etc.
   if (day == "00") {
     sun.classList.add("active");
+    phoneday.innerText = "SUNDAY";
   } else if (day == "01") {
     mon.classList.add("active");
+    phoneday.innerText = "MONDAY";
   } else if (day == "02") {
     tue.classList.add("active");
+    phoneday.innerText = "TUESDAY";
   } else if (day == "03") {
     wed.classList.add("active");
+    phoneday.innerText = "WEDNESDAY";
   } else if (day == "04") {
     thu.classList.add("active");
+    phoneday.innerText = "THURSDAY";
   } else if (day == "05") {
     fri.classList.add("active");
+    phoneday.innerText = "FRIDAY";
   } else {
     sat.classList.add("active");
+    phoneday.innerText = "SATURDAY";
   }
 }
 let timeIntervalId = setInterval(currenttime, 1000);
@@ -89,6 +99,7 @@ function formatTime12Hour() {
   // Update the DOM elements
   hr.innerText = formathours;
   ap.innerText = ampm;
+  phap.innerText = ampm;
 }
 
 // Event listener for the format selector
@@ -98,11 +109,17 @@ select.addEventListener("change", () => {
   clearInterval(formatintervel);
 
   if (selectvalue == "12hour") {
-    ampmbox.style.display = "flex";
+    if(window.innerWidth <= 768){
+      phampmbox.style.display = "flex";
+    }
+    else{
+      ampmbox.style.display = "flex";
+    }
     formatTime12Hour(); // Update immediately
     formatintervel = setInterval(formatTime12Hour, 1000);
   } else {
     ampmbox.style.display = "none";
+    phampmbox.style.display = "none";
     formatTime24Hour(); // Update immediately
     formatintervel = setInterval(formatTime24Hour, 1000);
   }
